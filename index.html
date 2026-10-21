@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Robot Rescue: Power Up the Bot! | Robotronics IET-DAVV</title>
+<meta name="description" content="A 90 second robotics mini-game from Robotronics, the robotics club of IET-DAVV. Restore power to a stranded Mars rover, then grab the recruitment study kit.">
+<meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="Robot Rescue: Power Up the Bot!">
+<meta property="og:description" content="Three quick robotics challenges. One stranded Mars rover. By Robotronics, IET-DAVV.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="sky" id="sky" aria-hidden="true"><div class="planet"></div></div>
+
+<header class="top">
+  <a class="brand" href="./" aria-label="Robotronics IET-DAVV home">
+    <img src="assets/logo.png" width="44" height="44" alt="">
+    <span class="brand-text"><strong>ROBOTRONICS</strong><span class="bar">|</span>IET-DAVV</span>
+  </a>
+  <button class="sound" id="sound" type="button" aria-pressed="true">Sound on</button>
+</header>
+
+<main id="main">
+
+  <section class="screen" id="screen-intro" aria-labelledby="intro-title">
+    <img class="hero-logo" src="assets/logo.png" width="112" height="112" alt="Robotronics logo">
+    <h1 id="intro-title">ROBOT RESCUE<span class="sub">POWER UP THE BOT!</span></h1>
+    <p class="lead">Our exploration rover has gone dark on a Mars-like planet. Solve three quick challenges to bring its systems back online.</p>
+    <button class="btn primary" id="start" type="button">Start the rescue</button>
+    <p class="fine">3 questions, about 90 seconds. 20 seconds per question. Faster answers score more.</p>
+  </section>
+
+  <section class="screen" id="screen-game" aria-labelledby="q-text" hidden>
+    <div class="hud">
+      <div class="hud-item"><span class="hud-label">Challenge</span><span class="hud-value" id="progress">1 of 3</span></div>
+      <div class="hud-item"><span class="hud-label">Score</span><span class="hud-value" id="score">0</span></div>
+      <div class="hud-item"><span class="hud-label">Rover power</span><span class="hud-value" id="power-text">0%</span></div>
+    </div>
+    <div class="meter" aria-hidden="true"><div class="meter-fill" id="power-fill"></div></div>
+    <div class="timer" role="timer" aria-label="Time left for this question"><div class="timer-fill" id="timer-fill"></div><span class="timer-num" id="timer-num">20</span></div>
+
+    <h2 class="q" id="q-text" tabindex="-1"></h2>
+    <div class="answers" id="answers"></div>
+
+    <div class="feedback" id="feedback" aria-live="polite" hidden>
+      <p class="fb-status" id="fb-status"></p>
+      <p class="fb-why" id="fb-why"></p>
+      <button class="btn primary" id="next" type="button">Next challenge</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-result" aria-labelledby="res-title" hidden>
+    <p class="res-state" id="res-state"></p>
+    <h2 id="res-title" tabindex="-1">Mission score</h2>
+    <p class="big-score"><span id="final-score">0</span><small> / 450</small></p>
+    <p class="rank" id="rank"></p>
+    <p class="lead" id="res-msg"></p>
+    <div class="actions">
+      <a class="btn primary" id="btn-ig" href="https://www.instagram.com/robotronics._iet/" target="_blank" rel="noopener noreferrer">FOLLOW ROBOTRONICS &amp; GET YOUR STUDY KIT</a>
+      <a class="btn secondary" id="btn-drive" href="https://drive.google.com/drive/folders/1H53FxRYLJtf9GjnzqeesAvj4j2BJQqut?usp=sharing" target="_blank" rel="noopener noreferrer">CONTINUE TO STUDY MATERIAL</a>
+      <button class="btn ghost" id="replay" type="button">Play again</button>
+    </div>
+    <p class="fine">Following Robotronics on Instagram is encouraged, so you hear about events and recruitment first. It opens in a new tab and this page stays open. We cannot verify follows, and you can open the study material at any time, whether or not you follow.</p>
+  </section>
+
+</main>
+
+<div class="stage" aria-hidden="true">
+  <svg class="rover" id="rover" viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg" focusable="false">
+    <defs>
+      <radialGradient id="glow"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff9f43" stop-opacity="0"/></radialGradient>
+      <linearGradient id="hull" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a5163"/><stop offset="1" stop-color="#232838"/></linearGradient>
+    </defs>
+    <ellipse cx="130" cy="140" rx="110" ry="6" fill="#000" opacity=".35"/>
+    <g class="mast"><rect x="165" y="30" width="7" height="44" fill="#3a4152"/><rect x="152" y="14" width="34" height="22" rx="4" fill="url(#hull)" stroke="#5d6579"/>
+      <circle class="eye" cx="162" cy="25" r="6" fill="#ffd27a"/><circle class="eye" cx="177" cy="25" r="6" fill="#ffd27a"/>
+      <circle class="eye-glow" cx="162" cy="25" r="16" fill="url(#glow)"/><circle class="eye-glow" cx="177" cy="25" r="16" fill="url(#glow)"/>
+      <line x1="200" y1="74" x2="200" y2="22" stroke="#5d6579" stroke-width="2.5"/><circle class="eye" cx="200" cy="20" r="3.5" fill="#ff7a2f"/></g>
+    <rect x="62" y="70" width="140" height="38" rx="8" fill="url(#hull)" stroke="#5d6579"/>
+    <rect x="70" y="76" width="44" height="10" rx="2" fill="#141826"/>
+    <rect class="panel" x="74" y="79" width="8" height="4" fill="#ffd27a"/><rect class="panel" x="86" y="79" width="8" height="4" fill="#ff9f43"/><rect class="panel" x="98" y="79" width="8" height="4" fill="#ffd27a"/>
+    <rect x="124" y="76" width="70" height="26" rx="3" fill="#1a1f2e" stroke="#3a4152"/>
+    <path d="M70 108 L48 128 M130 108 L130 124 M196 108 L214 128" stroke="#3a4152" stroke-width="5" stroke-linecap="round"/>
+    <g class="wheels">
+      <g class="wheel" style="transform-origin:48px 128px"><circle cx="48" cy="128" r="15" fill="#171b27" stroke="#5d6579" stroke-width="3"/><path d="M48 115V141M35 128H61" stroke="#5d6579" stroke-width="2"/></g>
+      <g class="wheel" style="transform-origin:130px 126px"><circle cx="130" cy="126" r="15" fill="#171b27" stroke="#5d6579" stroke-width="3"/><path d="M130 113V139M117 126H143" stroke="#5d6579" stroke-width="2"/></g>
+      <g class="wheel" style="transform-origin:214px 128px"><circle cx="214" cy="128" r="15" fill="#171b27" stroke="#5d6579" stroke-width="3"/><path d="M214 115V141M201 128H227" stroke="#5d6579" stroke-width="2"/></g>
+    </g>
+  </svg>
+  <div class="ground"></div>
+</div>
+
+<footer class="foot">
+  <p class="tagline">LEARN <span>|</span> BUILD <span>|</span> EXPLORE <span>|</span> INNOVATE</p>
+  <p class="skip"><a id="link-skip" href="https://drive.google.com/drive/folders/1H53FxRYLJtf9GjnzqeesAvj4j2BJQqut?usp=sharing" target="_blank" rel="noopener noreferrer">Skip the game and open the study material</a></p>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
